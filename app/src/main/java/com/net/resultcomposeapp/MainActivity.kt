@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,25 +21,30 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColor
 import com.net.resultcomposeapp.ui.theme.ResultComposeAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -48,9 +54,58 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ResultComposeAppTheme {
-                ProfileCard()
+                CustomToolbar(
+                    title = stringResource(id = R.string.app_name),
+                    onBackClick = { finish() }
+                )
+//                ProfileCard()
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomToolbar(
+    title: String,
+    onBackClick: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+    TopAppBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                Brush.horizontalGradient(
+                    listOf(Color(0xFF00BCD4), Color(0xFF3F51B5))
+                )
+            ),
+        title = {
+            Text(
+                text = title,
+                color = Color.White,
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        navigationIcon = {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_back),
+                contentDescription = "Back",
+                tint = Color.White,
+                modifier = Modifier
+                    .clickable(onClick = onBackClick)
+                    .padding(16.dp)
+            )
+        },
+        colors = androidx.compose.material3.TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = Color.Transparent // Use transparent to let gradient show
+        )
+    )
+        }
+            ){
+            innerPadding ->
+        innerPadding.calculateTopPadding()
+        ProfileCard()
     }
 }
 
@@ -73,12 +128,14 @@ fun SetGPA(value: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCard() {
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 50.dp),
+            .padding(top = 80.dp, bottom = 50.dp),
         color = MaterialTheme.colorScheme.background
     ) {
         val scrollState = rememberScrollState()
@@ -386,7 +443,6 @@ fun ProfileCard() {
 
     }
 
-
 }
 
 @Composable
@@ -408,7 +464,9 @@ fun SetRemarks(remarks: String) {
         text = "Remarks By ClassTeacher",
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
-        modifier = Modifier.padding(start = 20.dp, top = 10.dp, bottom = 10.dp).fillMaxWidth()
+        modifier = Modifier
+            .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
+            .fillMaxWidth()
     )
     Surface (modifier = Modifier
         .padding(10.dp)
