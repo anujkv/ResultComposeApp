@@ -13,9 +13,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,16 +30,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColor
 import com.net.resultcomposeapp.ui.theme.ResultComposeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             ResultComposeAppTheme {
                 ProfileCard()
@@ -45,24 +55,53 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ProfileCard(){
+fun SetGPA(value: String) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 20.dp, end = 20.dp), ){
+        Text(text = "GPA", fontSize = 16.sp, fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.End,
+            modifier = Modifier
+                .weight(0.8f)
+                .align(Alignment.CenterVertically)
+                .padding(end = 20.dp))
+        Text(text = value, fontSize = 16.sp, fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .weight(0.2f)
+                .align(Alignment.CenterVertically))
+    }
+}
+
+@Composable
+fun ProfileCard() {
     Surface(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxWidth()
+            .padding(bottom = 50.dp),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column (
-            modifier = Modifier.padding(20.dp)
-        ){
-            Row (
+        val scrollState = rememberScrollState()
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+                .verticalScroll(scrollState)
+            ,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
                 modifier = Modifier.padding(20.dp),
-                horizontalArrangement = Arrangement.Center){
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Image(
                     modifier = Modifier
                         .size(50.dp)
                         .clip(CircleShape),
                     painter = painterResource(id = R.drawable.ic_school_logo),
-                    contentDescription = "SchoolPicture" )
+                    contentDescription = "SchoolPicture"
+                )
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
@@ -76,11 +115,9 @@ fun ProfileCard(){
                     )
                     Text(
                         modifier = Modifier.padding(start = 10.dp),
-                        text = "R.K Puram, Ashram Road, Delhi")
-
-
+                        text = "R.K Puram, Ashram Road, Delhi"
+                    )
                 }
-
             }
 
             /*Performance Profile Start----------*/
@@ -89,12 +126,14 @@ fun ProfileCard(){
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-            
+                color = Color.Blue
+            )
+
             Text(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
-                    .padding(top = 8.dp, bottom = 8.dp), fontWeight = FontWeight.Bold,
+                    .padding(top = 8.dp, bottom = 8.dp),
+                fontWeight = FontWeight.Bold,
                 text = "Performance Profile",
                 fontSize = 18.sp,
                 color = Color.Blue,
@@ -105,19 +144,23 @@ fun ProfileCard(){
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
+                color = Color.Blue
+            )
 
-            Row (modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 20.dp,
-                    top = 10.dp,
-                    bottom = 10.dp
-                )){
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 20.dp,
+                        top = 10.dp,
+                        bottom = 10.dp
+                    )
+            ) {
                 Image(
                     modifier = Modifier.size(50.dp),
                     painter = painterResource(id = R.drawable.ic_user),
-                    contentDescription = "User Logo")
+                    contentDescription = "User Logo"
+                )
                 Column {
                     Text(
                         modifier = Modifier
@@ -138,153 +181,166 @@ fun ProfileCard(){
 
             }
 
-            Row (
+            Row(
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth()){
+                    .fillMaxWidth()
+            ) {
 
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                        , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "Roll Number")
+                    text = "Roll Number"
+                )
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-")
+                    text = "-"
+                )
             }
             HorizontalDivider(
                 modifier = Modifier
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-            Row (
+                color = Color.Blue
+            )
+            Row(
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth()){
+                    .fillMaxWidth()
+            ) {
 
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "Date of Birth")
+                    text = "Date of Birth"
+                )
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-")
+                    text = "-"
+                )
             }
             HorizontalDivider(
                 modifier = Modifier
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-            Row (
+                color = Color.Blue
+            )
+            Row(
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth()){
+                    .fillMaxWidth()
+            ) {
 
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "Blood Group")
+                    text = "Blood Group"
+                )
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-")
+                    text = "-"
+                )
             }
             HorizontalDivider(
                 modifier = Modifier
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-            Row (
+                color = Color.Blue
+            )
+            Row(
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth()){
+                    .fillMaxWidth()
+            ) {
 
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "Contact")
+                    text = "Contact"
+                )
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-")
+                    text = "-"
+                )
             }
             HorizontalDivider(
                 modifier = Modifier
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-            Row (
+                color = Color.Blue
+            )
+            Row(
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth()){
+                    .fillMaxWidth()
+            ) {
 
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "Class")
+                    text = "Class"
+                )
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-")
+                    text = "-"
+                )
             }
             HorizontalDivider(
                 modifier = Modifier
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-            Row (
+                color = Color.Blue
+            )
+            Row(
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth()){
+                    .fillMaxWidth()
+            ) {
 
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "Father's Name")
+                    text = "Father's Name"
+                )
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-")
+                    text = "-"
+                )
             }
             HorizontalDivider(
                 modifier = Modifier
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-            Row (
+                color = Color.Blue
+            )
+            Row(
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth()){
+                    .fillMaxWidth()
+            ) {
 
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "Mother's Name")
+                    text = "Mother's Name"
+                )
                 Text(
-                    modifier = Modifier.weight(0.5f)
-                    , fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-")
+                    text = "-"
+                )
             }
             /*Performance Profile End----------*/
 
@@ -295,12 +351,14 @@ fun ProfileCard(){
                     .padding(top = 20.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
+                color = Color.Blue
+            )
 
             Text(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
-                    .padding(top = 8.dp, bottom = 8.dp), fontWeight = FontWeight.Bold,
+                    .padding(top = 8.dp, bottom = 8.dp),
+                fontWeight = FontWeight.Bold,
                 text = "Academic Profile",
                 fontSize = 18.sp,
                 color = Color.Blue,
@@ -311,86 +369,191 @@ fun ProfileCard(){
                     .padding(2.dp)
                     .height(2.dp)
                     .fillMaxWidth(),
-                color = Color.Blue)
-
-            /*Term1 Heading Start----------*/
-
-            Text(
-                modifier = Modifier
-                    .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth(),
-                text = "Term I",
-                fontSize = 16.sp,
-                color = Color.DarkGray,
-                fontWeight = FontWeight.Bold
+                color = Color.Blue
             )
-            /*Term1 Heading End----------*/
+            ShowTerm("Term I")
+            SetGPA(value = "9.45")
+            ShowTerm("Term II")
+            SetGPA(value = "9.45")
+            ShowTerm("Final Term")
+            SetGPA(value = "9.45")
 
-            /*Term1 CardView(Surface) Start----------*/
-            Surface (
-                shadowElevation = 5.dp,
-                shape = RoundedCornerShape(15.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp)
-                    .background(Color.White),
-                color =  Color.Cyan
-            ){
-                Row(
-                    modifier = Modifier
-                        .padding(15.dp)
-                        .fillMaxWidth()
-                ){
-                    Text(
-                        text = "Subject",
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(0.3f))
-                    Text(
-                        text = "Qtr 1",
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(0.2f))
-                    Text(
-                        text = "Qtr 2",
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(0.2f))
-                    Text(
-                        text = "Term 1",
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(0.2f))
-                }
-                /*Term1 Subject List Start----------*/
-                subjectList()
-                /*Term1 Subject List End----------*/
+            SetRemarks(remarks = stringResource(id = R.string.remarks))
+            /*Academic Profile End----------*/
 
-                /*Term1 Subject End----------*/
-
-
-            }
-
-            /*Academic Profile Start----------*/
-            /*Term1 CardView(Surface) End----------*/
+            SetPrincipleSignature(principle = stringResource(id = R.string.principle_signature))
         }
+
+    }
+
+
+}
+
+@Composable
+fun SetPrincipleSignature(principle: String) {
+    Text(
+        modifier = Modifier
+            .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+            .fillMaxWidth(),
+        text = "- $principle",
+        fontSize = 16.sp,
+        color = Color.DarkGray,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+fun SetRemarks(remarks: String) {
+    Text(
+        text = "Remarks By ClassTeacher",
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        modifier = Modifier.padding(start = 20.dp, top = 10.dp, bottom = 10.dp).fillMaxWidth()
+    )
+    Surface (modifier = Modifier
+        .padding(10.dp)
+        .fillMaxWidth(),
+        color = Color.Magenta,
+        shape = RoundedCornerShape(15.dp), shadowElevation = 15.dp){
+            Text(text = remarks, modifier = Modifier.padding(20.dp), color = Color.Red)
+    }
+}
+
+@Composable
+fun ShowTerm(term: String) {
+    Text(
+        modifier = Modifier
+            .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+            .fillMaxWidth(),
+        text = term,
+        fontSize = 16.sp,
+        color = Color.DarkGray,
+        fontWeight = FontWeight.Bold
+    )
+
+    Surface(
+        shadowElevation = 5.dp,
+        shape = RoundedCornerShape(15.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp)
+            .background(Color.White),
+        color = Color.Cyan
+    ) {
+        Column {
+
+            Row(
+                modifier = Modifier
+                    .padding(15.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "Subject",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.3f)
+                )
+                Text(
+                    text = "Qtr 1",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.2f)
+                )
+                Text(
+                    text = "Qtr 2",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.2f)
+                )
+                Text(
+                    text = term,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.2f)
+                )
+            }
+            ShowSubjectList(subjectList())
+        }
+    }
+}
+
+@Composable
+fun ShowSubjectList(subjectList: List<Subject>) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .requiredHeight(270.dp),
+        userScrollEnabled = false,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        items(subjectList.size) { item ->
+            println(getColor(item))
+            SubjectItem(subjectList[item])
+        }
+    }
+}
+
+fun getColor(item: Int): Color {
+    if (item == 0) {
+        return Color.LightGray
+    }else if(item%2==0){
+        return Color.Cyan
+    }else{
+        return Color.LightGray
 
     }
 }
 
-data class Subject(val subject:String, val qtr1:String, val qtr2:String, val term:String)
+@Composable
+fun SubjectItem(subject: Subject) {
+    Row(
+        modifier = Modifier
+            .padding(15.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = subject.subject,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.weight(0.3f)
+        )
+        Text(
+            text = subject.qtr1,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .weight(0.2f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = subject.qtr2,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .weight(0.2f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = subject.term,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .weight(0.2f)
+                .padding(start = 15.dp)
+        )
+    }
+}
+
+data class Subject(val subject: String, val qtr1: String, val qtr2: String, val term: String)
 
 @Composable
 fun subjectList(): List<Subject> {
     return listOf(
-        Subject("Maths", "60","72","65"),
-        Subject("Maths", "60","72","65"),
-        Subject("Maths", "60","72","65"),
-        Subject("Maths", "60","72","65"),
-        Subject("Maths", "60","72","65")
+        Subject("Maths", "60", "72", "65"),
+        Subject("English", "60", "72", "65"),
+        Subject("Hindi", "60", "72", "65"),
+        Subject("Science", "60", "72", "65"),
+        Subject("Social Science", "60", "72", "65")
     )
-    
+
 }
 
 
 @Preview
 @Composable
-fun ProfileCardPreview(){
+fun ProfileCardPreview() {
     ProfileCard()
 }
