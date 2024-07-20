@@ -1,4 +1,4 @@
-package com.net.resultcomposeapp
+package com.net.resultcomposeapp.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,8 +29,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,18 +46,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import com.net.resultcomposeapp.R
 import com.net.resultcomposeapp.ui.theme.ResultComposeAppTheme
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var viewModel: StudentViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        viewModel = ViewModelProvider(this)[StudentViewModel::class.java]
 
         setContent {
             ResultComposeAppTheme {
                 CustomToolbar(
                     title = stringResource(id = R.string.app_name),
-                    onBackClick = { finish() }
+                    onBackClick = { finish() },
+                    viewModel
                 )
 //                ProfileCard()
             }
@@ -68,8 +76,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CustomToolbar(
     title: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    viewModel: StudentViewModel
 ) {
+
     Scaffold(
         topBar = {
     TopAppBar(
@@ -105,8 +115,12 @@ fun CustomToolbar(
             ){
             innerPadding ->
         innerPadding.calculateTopPadding()
-        ProfileCard()
+        ProfileCard(viewModel)
+        loadDataUsingJsonFile()
     }
+}
+
+fun loadDataUsingJsonFile() {
 }
 
 @Composable
@@ -128,9 +142,11 @@ fun SetGPA(value: String) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileCard() {
+fun ProfileCard(viewModel: StudentViewModel) {
+    viewModel.loadStudentData()
+    val students by viewModel.studentFlow.collectAsState()
+
 
     Surface(
         modifier = Modifier
@@ -172,7 +188,7 @@ fun ProfileCard() {
                     )
                     Text(
                         modifier = Modifier.padding(start = 10.dp),
-                        text = "R.K Puram, Ashram Road, Delhi"
+                        text = "R.K Param, Ashram Road, Delhi"
                     )
                 }
             }
@@ -224,9 +240,9 @@ fun ProfileCard() {
                             .padding(start = 10.dp, top = 10.dp)
                             .fillMaxWidth(),
                         fontWeight = FontWeight.Bold,
-                        color = Color.Blue,
-                        text = "Shreye Sharma",
-                        fontSize = 16.sp
+                        color = Color.Blue,fontSize = 16.sp,
+                        text = if(students.isNotEmpty()) students[0].name else "Student"
+
                     )
 
                     Text(
@@ -252,7 +268,7 @@ fun ProfileCard() {
                 Text(
                     modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-"
+                    text = if(students.isNotEmpty()) students[0].roll_no else "-"
                 )
             }
             HorizontalDivider(
@@ -276,7 +292,7 @@ fun ProfileCard() {
                 Text(
                     modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-"
+                    text = if(students.isNotEmpty()) students[0].dob else "-"
                 )
             }
             HorizontalDivider(
@@ -300,7 +316,7 @@ fun ProfileCard() {
                 Text(
                     modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-"
+                    text = if(students.isNotEmpty()) students[0].blood_group else "-"
                 )
             }
             HorizontalDivider(
@@ -324,7 +340,7 @@ fun ProfileCard() {
                 Text(
                     modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-"
+                    text = if(students.isNotEmpty()) students[0].contact else "-"
                 )
             }
             HorizontalDivider(
@@ -348,7 +364,7 @@ fun ProfileCard() {
                 Text(
                     modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-"
+                    text = if(students.isNotEmpty()) students[0].class_name else "-"
                 )
             }
             HorizontalDivider(
@@ -372,7 +388,7 @@ fun ProfileCard() {
                 Text(
                     modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-"
+                    text = if(students.isNotEmpty()) students[0].father else "-"
                 )
             }
             HorizontalDivider(
@@ -396,7 +412,7 @@ fun ProfileCard() {
                 Text(
                     modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Bold,
                     color = Color.DarkGray,
-                    text = "-"
+                    text = if(students.isNotEmpty()) students[0].mother else "-"
                 )
             }
             /*Performance Profile End----------*/
@@ -548,12 +564,12 @@ fun ShowSubjectList(subjectList: List<Subject>) {
 }
 
 fun getColor(item: Int): Color {
-    if (item == 0) {
-        return Color.LightGray
+    return if (item == 0) {
+        Color.LightGray
     }else if(item%2==0){
-        return Color.Cyan
+        Color.Cyan
     }else{
-        return Color.LightGray
+        Color.LightGray
 
     }
 }
@@ -613,5 +629,5 @@ fun subjectList(): List<Subject> {
 @Preview
 @Composable
 fun ProfileCardPreview() {
-    ProfileCard()
+//    ProfileCard(viewModel = StudentViewModel())
 }

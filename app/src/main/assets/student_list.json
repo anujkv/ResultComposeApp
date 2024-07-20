@@ -1,0 +1,119 @@
+{
+	"page": 1,
+	"student_list": [
+		{
+			"id": 1,
+			"name": "Shreya Sharma",
+			"roll_no": "B122055",
+			"dob": "12 Oct 2003",
+			"blood_group": "O+",
+			"contact": "9673838292",
+			"class_name": "IX C",
+			"father": "Rohan Sharma",
+			"mother": "Riya Sharma",
+			"profile_pic": "https://img.freepik.com/premium-photo/woman-holding-book-blue-folder-with-other-people-background_917213-180044.jpg?w=200",
+			"remark": "Shreya Sharma has demonstrated a commendable understanding of the subjects this term. Her consistent effort and dedication are reflected in her excellent exam results. ",
+			"term_one": [
+				{
+					"subject": "English",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Hindi",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Mathematics",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Science",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "SocialScience",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				}
+			],
+			"term1_gpa": "9.24",
+			"term_two": [
+				{
+					"subject": "English",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Hindi",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Mathematics",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Science",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "SocialScience",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				}
+			],
+			"term2_gpa": "9.24",
+			"final_term": [
+				{
+					"subject": "English",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Hindi",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Mathematics",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "Science",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				},
+				{
+					"subject": "SocialScience",
+					"qta1": "A+/95",
+					"qta2": "A+/95",
+					"term1": "A+/95"
+				}
+			],
+			"final_term_gpa": "9.24"
+		}
+	],
+	"total_pages": 1,
+	"total_results": 1
+}
